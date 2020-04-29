@@ -8,6 +8,7 @@ function fetchImage() {
     .then(function(json) {renderImage(json)});
   
   }
+// use json.message to access urls for images and create an img element with sources from json.messages, last appendchild image elements to our desired parent element
 
   function renderImage(json) {
         const imgDiv = document.getElementById('dog-image-container')
@@ -18,10 +19,31 @@ function fetchImage() {
         })
       }
 
+const breedUrl = 'https://dog.ceo/api/breeds/list/all'
 
+function fetchAllBreeds() {
+    return fetch(breedUrl)
+    .then(resp => resp.json())
+    // .then(json => console.log(json))
+    .then(function(json) {renderAllBreeds(json)});
+  
+  }
+
+function renderAllBreeds(json) {
+    const ul = document.getElementById('dog-breeds')
+    const breeds = json.message
+    // console.log(Object.keys(breeds))
+    // for (var i=0; i< breeds.length)
+    Object.keys(breeds).forEach(breed => {
+      const li = document.createElement('li')
+      li.innerHTML = breed
+      ul.appendChild(li)
+    })
+  }
 
   document.addEventListener('DOMContentLoaded', function() {
     fetchImage()
+    fetchAllBreeds()
   })
 
 // function fetchBooks() {
