@@ -6,7 +6,7 @@ function fetchImage() {
     return fetch(imgUrl)
     .then(resp => resp.json())
     .then(function(json) {renderImage(json)});
-  
+    
   }
 // use json.message to access urls for images and create an img element with sources from json.messages, last appendchild image elements to our desired parent element
 
@@ -25,7 +25,9 @@ function fetchAllBreeds() {
     return fetch(breedUrl)
     .then(resp => resp.json())
     // .then(json => console.log(json))
-    .then(function(json) {renderAllBreeds(json)})
+    .then(function(json) {
+      renderAllBreeds(json)
+    })
   
   }
 
@@ -33,31 +35,34 @@ function fetchAllBreeds() {
 function renderAllBreeds(json) {
     let ul = document.getElementById('dog-breeds')
     let breeds = json.message
-    // console.log(Object.keys(breeds))
-    // for (var i=0; i< breeds.length)
-    //modify json.message before the loop
-    
-
-    function filterBreeds(breeds) {
-      const selectOptions = document.querySelectorAll("option")
-        selectOptions.addEventListener('change', function(e){
-          // change the allBreeds or other variable that renders the list
-          // how do i modify something that has been rendered already (delete?)
-          // call this filter function inside of render all?
-          // breeds.delete where first letter != to event.target.first letter
-          //breed.innerText[0]
-          // callback function on changed json/array
-          Object.keys(breeds).forEach(breed => {
-            const li = document.createElement('li')
-            li.innerHTML = breed
-            if (li.innerText[0] === e.target.innerText){
-              ul.appendChild(li)
-            }
-            
-          })
-        })
-      
+    function arrayAllBreeds(breeds) {
+      let filter = breeds.filter(breed => breed[0] === "a");
+      return filter;
     }
+    arrayAllBreeds(breeds)
+    //modify json.message before the loop
+    Object.keys(breeds).forEach(breed => {
+      const li = document.createElement('li')
+      li.innerHTML = breed
+      // if (li.innerText[0] === e.target.innerText){
+        ul.appendChild(li)
+      // }
+    })
+  
+    
+  }
+
+  function filterBreeds(breeds) {
+    const selectOptions = document.getElementById("breed-dropdown")
+      selectOptions.addEventListener('change', function(e){
+        // change the allBreeds or other variable that renders the list
+        // how do i modify something that has been rendered already (delete?)
+        // call this filter function inside of render all?
+        // breeds.delete where first letter != to event.target.first letter
+        //breed.innerText[0]
+        // callback function on changed json/array
+        
+      })
     
   }
 
