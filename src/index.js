@@ -25,10 +25,11 @@ function fetchAllBreeds() {
     return fetch(breedUrl)
     .then(resp => resp.json())
     // .then(json => console.log(json))
-    .then(function(json) {renderAllBreeds(json)});
+    .then(function(json) {renderAllBreeds(json)})
   
   }
 
+// the json object had breeds as keys in a nested hash so the json object was not being defined for the forEach loop, extracting the keys of the json object into an array allowed the forEach loop to access the breed data
 function renderAllBreeds(json) {
     const ul = document.getElementById('dog-breeds')
     const breeds = json.message
@@ -41,9 +42,23 @@ function renderAllBreeds(json) {
     })
   }
 
+  function changeColor() {
+    const allBreeds = document.querySelectorAll("li")
+    allBreeds.forEach(breed => {
+      breed.addEventListener('click', function(e) {
+        
+          breed.style.color = "magenta" // 
+        
+      } )
+      
+    })
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     fetchImage()
     fetchAllBreeds()
+    changeColor()
+    
   })
 
 // function fetchBooks() {
