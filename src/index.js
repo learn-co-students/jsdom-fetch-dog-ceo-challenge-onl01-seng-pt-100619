@@ -31,28 +31,49 @@ function fetchAllBreeds() {
 
 // the json object had breeds as keys in a nested hash so the json object was not being defined for the forEach loop, extracting the keys of the json object into an array allowed the forEach loop to access the breed data
 function renderAllBreeds(json) {
-    const ul = document.getElementById('dog-breeds')
-    const breeds = json.message
+    let ul = document.getElementById('dog-breeds')
+    let breeds = json.message
     // console.log(Object.keys(breeds))
     // for (var i=0; i< breeds.length)
-    Object.keys(breeds).forEach(breed => {
-      const li = document.createElement('li')
-      li.innerHTML = breed
-      ul.appendChild(li)
-    })
+    //modify json.message before the loop
+    
+
+    function filterBreeds(breeds) {
+      const selectOptions = document.querySelectorAll("option")
+        selectOptions.addEventListener('change', function(e){
+          // change the allBreeds or other variable that renders the list
+          // how do i modify something that has been rendered already (delete?)
+          // call this filter function inside of render all?
+          // breeds.delete where first letter != to event.target.first letter
+          //breed.innerText[0]
+          // callback function on changed json/array
+          Object.keys(breeds).forEach(breed => {
+            const li = document.createElement('li')
+            li.innerHTML = breed
+            if (li.innerText[0] === e.target.innerText){
+              ul.appendChild(li)
+            }
+            
+          })
+        })
+      
+    }
+    
   }
 
   function changeColor() {
-    const allBreeds = document.querySelectorAll("li")
+    let allBreeds = document.querySelectorAll("li")
     allBreeds.forEach(breed => {
       breed.addEventListener('click', function(e) {
         
-          breed.style.color = "magenta" // 
+          breed.style.color = "magenta" // select all list items in documents with queryselectorall and iterate over the array of list items, then add an event listener to each item of click and the callback is to change the color of the text through the style property/attribute
         
       } )
       
     })
   }
+
+  
 
   document.addEventListener('DOMContentLoaded', function() {
     fetchImage()
