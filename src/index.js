@@ -1,61 +1,42 @@
 
-document.addEventListener('DomContentLoaded', function() {
-    // console.log('hi')
-    
-    loadImages();
+document.addEventListener('DOMContentLoaded', function() {
+    fetchImages();
     fetchBreeds();
 });
 
-
-
-function loadImages() {
+function fetchImages() {
     const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
     fetch(imgUrl)
     .then(resp => resp.json())
-
-    /*
-    .then(data => {
-        console.log(data)
-    });
-    */
-
     .then(results => {
-        results.message.forEach(image => addImage(image))
+        results.message.forEach(dogLink => addImage(dogLink))
     });
 }
 
-
-  function addImage(dogPic) {
+  function addImage(dogLink) {
       let container = document.querySelector('#dog-image-container');
       let newImage = document.createElement('img');
-      newImage.src = dogPic;
+      newImage.src = dogLink;
       container.appendChild(newImage);
   }
   
-
   function fetchBreeds() {
       const breedUrl = 'https://dog.ceo/api/breeds/list/all'
-      fetch(breedUrl)
-      .then(resp => resp.json())
-      .then(results => {
-          breeds = Object.keys(results.message);
-          // updateBreedList(breeds);
-          addBreedListener();
-      });
-  }
-  function selectBreeds(letter){
-      updateBreedList(breeds.filter(breed => breed.startsWith(letter)));
+      fetch(breedUrl).then((resp) => {
+        return resp.json()
+      }).then((json) => {
+          const breedCollection = json.message
+          // find parent
+          const breedContainer = document.getElementById('dog-breeds')
+          for (const breedName in breedCollection){
+              //add breeds to page in a <ul>
+              //create li element
+              const listItem = document.createElement('li')
+              //add breed to list item
+              listItem.innerText = breedName
+              breedContainer.appendChild(listItem)
+          }
+      })
 
-  }
-
-  function addBreedListener(){
-      let breedOptions = document.getElementById('breed-dropdown');
-      breedOptions.addEventListener('change', function(event){
-          selectBreeds(event.target.value);
-      });
-  }
-
-  function addBreed(breed) {
-      
   }
 
