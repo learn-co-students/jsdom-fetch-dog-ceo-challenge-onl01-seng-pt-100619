@@ -2,6 +2,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     fetchImages();
     fetchBreeds();
+    const breedDropdown = document.getElementById('breed-dropdown')
+    breedDropdown.addEventListener('change', filterBreeds)
 });
 
 function fetchImages() {
@@ -34,9 +36,30 @@ function fetchImages() {
               const listItem = document.createElement('li')
               //add breed to list item
               listItem.innerText = breedName
+              // add event listener for changing color
+              listItem.addEventListener('click', changeColor)
               breedContainer.appendChild(listItem)
           }
       })
+
+  }
+
+  function changeColor(event){
+      event.target.style.color = 'pink'
+  }
+
+  //challenge4
+  function filterBreeds (event){
+      //get user input
+      const userSelection = event.target.value
+
+      //access the breeds
+      const breedList = document.getElementsByTagName('li')
+
+      //go through breeds
+      for (const breed of breedList){
+          console.log(breed)
+      }
 
   }
 
