@@ -37,10 +37,25 @@ function loadImages() {
       const breedUrl = 'https://dog.ceo/api/breeds/list/all'
       fetch(breedUrl)
       .then(resp => resp.json())
-      .then(function(dogBreeds){renderBreeds(dogBreeds)});
+      .then(results => {
+          breeds = Object.keys(results.message);
+          // updateBreedList(breeds);
+          addBreedListener();
+      });
+  }
+  function selectBreeds(letter){
+      updateBreedList(breeds.filter(breed => breed.startsWith(letter)));
 
   }
 
-  function renderBreeds(dogBreeds){
+  function addBreedListener(){
+      let breedOptions = document.getElementById('breed-dropdown');
+      breedOptions.addEventListener('change', function(event){
+          selectBreeds(event.target.value);
+      });
+  }
+
+  function addBreed(breed) {
       
   }
+
