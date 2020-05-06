@@ -60,11 +60,11 @@ function fetchImages() {
       //go through breeds
       for (const breed of breedList){
           console.log(breed)
-          if (breed.innerText.startsWith(userSelection)){ //starts with user input
-          }else {
-
+          if (breed.innerText.startsWith(userSelection)) {
+            breed.style.display = ""
+          } else {
+                breed.style.display = "none"
           }
       }
-
   }
 
