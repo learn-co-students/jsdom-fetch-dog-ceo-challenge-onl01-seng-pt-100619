@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchImages()
   fetchBreeds()
   changeColor()
-  changeColorOfBreed()
 })
 function fetchImages() {
   fetch('https://dog.ceo/api/breeds/image/random/4')
@@ -45,21 +44,21 @@ function getBreeds(json) {
     li.innerText = `${key}`
     dogBreedsList.appendChild(li);
   });
-}
 
-function changeColor() {
+  let dropDownValue = document.getElementById("breed-dropdown");
+  let result = dropDownValue.options[dropDownValue.selectedIndex].value;
+  dropDownValue.addEventListener('change', function(e) {
+  dogBreedsList.childNodes.forEach(child => {
+      dogBreedsList = [];
+     if (child.textContent.startsWith(result)){
+       dogBreedsList.push(child);
+     };
+});
+
+  })};
+
+  function changeColor() {
   let ul = document.getElementById("dog-breeds"); // Target colors
   ul.addEventListener('click', function(event) { // On click
     event.target.style.color = "#ff0000"; // Change color of click event target
-});
-}
-
-function changeColorOfBreed() {
-  let dropDown = document.getElementById("breed-dropdown");
-  Object.keys(dropDown).forEach(selection => {
-    selection.addEventListener('click', function(e) {
-      console.log(e.target)
-    })
-  })
-  let ul = document.getElementById("dog-breeds"); // Target colors
-}
+});}
