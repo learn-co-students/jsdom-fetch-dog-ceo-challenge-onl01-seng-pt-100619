@@ -42,9 +42,22 @@ function addImage(image){
 function addBreed(breed){
     let urlBreeds = document.querySelector("#dog-breeds")
     let newBreedElement = document.createElement('ul');
-    newBreedElement.innerText = breed;
+    let liBreed = document.createElement('li')
+    liBreed.innerText = breed;
+    liBreed.style.cursor = 'pointer';
+    newBreedElement.appendChild(liBreed);
     urlBreeds.appendChild(newBreedElement);  
+
+    
+    // CHALLENGE 3: CHANGE THE COLOR WHENVER BREED CLICKED
+    liBreed.addEventListener('click', updateColor);
+
+    function updateColor(e){
+        e.target.style.color = "blue";
+    }
 }
+
+
 
 
 
