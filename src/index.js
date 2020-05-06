@@ -49,6 +49,7 @@ function fetchImages() {
   }
 
   //challenge4
+  // user can filter breeds that start with a particular letter using a dropdown
   function filterBreeds (event){
       //get user input
       const userSelection = event.target.value
@@ -59,6 +60,10 @@ function fetchImages() {
       //go through breeds
       for (const breed of breedList){
           console.log(breed)
+          if (breed.innerText.startsWith(userSelection)){ //starts with user input
+          }else {
+
+          }
       }
 
   }
