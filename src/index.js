@@ -1,67 +1,138 @@
-// challenge 1: FETCH ALL DOG IMAGES 
-document.addEventListener('DOMContentLoaded', function(){
-    loadImages();  
-    dogBreed();
+document.addEventListener('DOMContentLoaded', function() {
+    fetchImages();
+    fetchBreeds();
+    const breedDropdown = document.getElementById('breed-dropdown')
+    breedDropdown.addEventListener('change', filterBreeds)
 });
 
-function loadImages(){
+function fetchImages() {
     const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
-
     fetch(imgUrl)
-        .then(res => res.json())
-        .then(results => {
-            results.message.forEach(image => addImage(image))
-            
+    .then(resp => resp.json())
+    .then(results => {
+        results.message.forEach(dogLink => addImage(dogLink))
     });
 }
 
-// CHALLENGE 2: GET ALL THE BREED'S NAME AND SET IT IN A UL
-function dogBreed(){
-    const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+  function addImage(dogLink) {
+      let container = document.querySelector('#dog-image-container');
+      let newImage = document.createElement('img');
+      newImage.src = dogLink;
+      container.appendChild(newImage);
+  }
+  
+  function fetchBreeds() {
+      const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+      fetch(breedUrl).then((resp) => {
+        return resp.json()
+      }).then((json) => {
+          const breedCollection = json.message
+          // find parent
+          const breedContainer = document.getElementById('dog-breeds')
+          for (const breedName in breedCollection){
+              //add breeds to page in a <ul>
+              //create li element
+              const listItem = document.createElement('li')
+              //add breed to list item
+              listItem.innerText = breedName
+              // add event listener for changing color
+              listItem.addEventListener('click', changeColor)
+              breedContainer.appendChild(listItem)
+          }
+      })
 
-    fetch(breedUrl)
-        .then(res => res.json())
-        .then(results => {
-            const breedObject = results.message
-            const breedKeys = Object.keys(breedObject);
-            // results.message.forEach(breed => addBreed(breed))
-            breedKeys.forEach(breed => addBreed(breed))  
-        });
+  }
+
+  function changeColor(event){
+      event.target.style.color = 'pink'
+  }
+
+  //challenge4
+  // user can filter breeds that start with a particular letter using a dropdown
+  function filterBreeds (event){
+      //get user input
+      const userSelection = event.target.value
+        // debugger;
+      //access the breeds
+      const breedList = document.getElementsByTagName('li')
+
+      //go through breeds
+      for (const breed of breedList){
+          document.addEventListener('DOMContentLoaded', function() {
+    fetchImages();
+    fetchBreeds();
+    const breedDropdown = document.getElementById('breed-dropdown')
+    breedDropdown.addEventListener('change', filterBreeds)
+});
+
+function fetchImages() {
+    const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
+    fetch(imgUrl)
+    .then(resp => resp.json())
+    .then(results => {
+        results.message.forEach(dogLink => addImage(dogLink))
+    });
 }
 
+  function addImage(dogLink) {
+      let container = document.querySelector('#dog-image-container');
+      let newImage = document.createElement('img');
+      newImage.src = dogLink;
+      container.appendChild(newImage);
+  }
+  
+  function fetchBreeds() {
+      const breedUrl = 'https://dog.ceo/api/breeds/list/all'
+      fetch(breedUrl).then((resp) => {
+        return resp.json()
+      }).then((json) => {
+          const breedCollection = json.message
+          // find parent
+          const breedContainer = document.getElementById('dog-breeds')
+          for (const breedName in breedCollection){
+              //add breeds to page in a <ul>
+              //create li element
+              const listItem = document.createElement('li')
+              //add breed to list item
+              listItem.innerText = breedName
+              // add event listener for changing color
+              listItem.addEventListener('click', changeColor)
+              breedContainer.appendChild(listItem)
+          }
+      })
 
+  }
 
-function addImage(image){
-    let imageContainer = document.querySelector('#dog-image-container');
-    let newImageElement = document.createElement('img');
-    newImageElement.src = image;
-    imageContainer.appendChild(newImageElement);
-}
+  function changeColor(event){
+      event.target.style.color = 'pink'
+  }
 
+  //challenge4
+  // user can filter breeds that start with a particular letter using a dropdown
+  function filterBreeds (event){
+      //get user input
+      const userSelection = event.target.value
 
-function addBreed(breed){
-    let urlBreeds = document.querySelector("#dog-breeds")
-    let newBreedElement = document.createElement('ul');
-    let liBreed = document.createElement('li')
-    liBreed.innerText = breed;
-    liBreed.style.cursor = 'pointer';
-    newBreedElement.appendChild(liBreed);
-    urlBreeds.appendChild(newBreedElement);  
+      //access the breeds
+      const breedList = document.getElementsByTagName('li')
 
-    
-    // CHALLENGE 3: CHANGE THE COLOR WHENVER BREED CLICKED
-    liBreed.addEventListener('click', updateColor);
-
-    function updateColor(e){
-        e.target.style.color = "blue";
-    }
-}
-
-
-
-
-
-// QUESTION 1: LINE 18Why would I need to iterage over the message array in the fetch response?
-// Could I just say result => somefunction() in line 15 and make my iteration `forEach` 
-// inside someFunction() ?
-
+      //go through breeds
+      for (const breed of breedList){
+          console.log(breed)
+          if (breed.innerText.startsWith(userSelection)) {
+            breed.style.display = ""
+          } else {
+                breed.style.display = "none"
+          }
+      }
+  }
+          console.log(breed)
+          if (breed.innerText.startsWith(userSelection)) {
+            //   debugger
+            breed.style.display = ""
+            debugger
+          } else {
+                breed.style.display = "none"
+          }
+      }
+  }
