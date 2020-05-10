@@ -1,5 +1,6 @@
 console.log('%c HI', 'color: firebrick')
 document.addEventListener("DOMContentLoaded", () => {
+  dogBreedsList = document.getElementById('dog-breeds');
   fetchImages()
   fetchBreeds()
   changeColor()
@@ -36,27 +37,36 @@ function fetchBreeds() {
   .then(resp => resp.json())
   .then(json => {getBreeds(json)});
 }
-
-function getBreeds(json) {
-  let dogBreedsList = document.getElementById('dog-breeds');
-  Object.keys(json.message).forEach(function(key, index) {
-    let li = document.createElement('li')
-    li.innerText = `${key}`
-    dogBreedsList.appendChild(li);
+function breedFind(jsonObj) {
+  Object.keys(jsonObj.message).forEach(function(key, index) {
+  let li = document.createElement('li');
+  li.innerText = `${key}`;
+  dogBreedsList.appendChild(li);
   });
-
+}
+function getBreeds(json) {
   let dropDownValue = document.getElementById("breed-dropdown");
-  let result = dropDownValue.options[dropDownValue.selectedIndex].value;
+  const alphabet = [...'abcdefghijklmnopqrstuvwxyz']
+  for (x in alphabet) {
+    let options = document.createElement('option');
+    options.innerText += alphabet[x];
+    dropDownValue.appendChild(options)
+  }
   dropDownValue.addEventListener('change', function(e) {
-  dogBreedsList.childNodes.forEach(child => {
-      dogBreedsList = [];
-     if (child.textContent.startsWith(result)){
-       dogBreedsList.push(child);
-     };
-});
-
-  })};
-
+    breedFind(json);
+    const result = dropDownValue.options[dropDownValue.selectedIndex].value
+    const pickedDogBreedsList = document.createElement('ul');
+    for (let i = 0; i < dogBreedsList.children.length; i++) {
+      if (dogBreedsList.children[i].innerText[0] === result) {
+        let li = document.createElement('li');
+        li.innerText = dogBreedsList.children[i].innerText;
+        pickedDogBreedsList.appendChild(li);
+      }
+    }
+    dogBreedsList.innerHTML = pickedDogBreedsList.innerHTML;
+  })
+  breedFind(json);
+}
   function changeColor() {
   let ul = document.getElementById("dog-breeds"); // Target colors
   ul.addEventListener('click', function(event) { // On click

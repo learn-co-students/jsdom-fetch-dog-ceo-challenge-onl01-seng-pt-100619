@@ -1,0 +1,7 @@
+.chosen-list {
+  color: blue;
+  position: sticky;
+}
+#dog-breeds {
+  display: grid;
+}
